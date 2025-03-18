@@ -31,10 +31,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
         builder => builder
-                          .AllowAllOrigin()
-                          .AllowAnyMethod()
-                          .AllowAnyHeader());
+            .WithOrigins(
+                "https://suitable-leanora-codenec-8941accd.koyeb.app",
+                "https://rococo-yeot-bec94a.netlify.app"
+            )
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 });
+
 
 var app = builder.Build();
 
