@@ -60,16 +60,16 @@ public async Task<IActionResult> GetWeatherById(int id)
                 }
 
                 var weatherInfo = new Weather
-                {
-                    City = weatherData["name"]?.ToString(),
-                    WeatherDescription = weatherData["weather"]?[0]["description"]?.ToString(),
-                    Temperature = weatherData["main"]?["temp"]?.ToObject<decimal>() ?? 0m,
-                    Humidity = weatherData["main"]?["humidity"]?.ToString(),
-                    WindSpeed = weatherData["wind"]?["speed"]?.ToObject<decimal>() ?? 0m,
-                    CloudCoverage = weatherData["clouds"]?["all"]?.ToObject<int>() ?? 0,
-                    Country = weatherData["sys"]?["country"]?.ToString(),
-                    Timestamp = DateTime.Now
-                };
+{
+    City = weatherData["name"]?.ToString(),
+    WeatherDescription = weatherData["weather"]?[0]["description"]?.ToString(),
+    Temperature = weatherData["main"]?["temp"]?.ToObject<decimal>() ?? 0m,
+    Humidity = weatherData["main"]?["humidity"]?.ToString(),
+    WindSpeed = weatherData["wind"]?["speed"]?.ToObject<decimal>() ?? 0m,
+    CloudCoverage = weatherData["clouds"]?["all"]?.ToObject<int>() ?? 0,
+    Country = weatherData["sys"]?["country"]?.ToString(),
+    Timestamp = DateTime.UtcNow // Gunakan UTC untuk PostgreSQL
+};
 
                 // Menyimpan data cuaca ke dalam database
                 _context.Weathers.Add(weatherInfo);
