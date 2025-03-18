@@ -1,6 +1,10 @@
 # Stage 1: Build
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS build-env
 WORKDIR /app
+COPY ./publish /app
+EXPOSE 80
+CMD ["dotnet", "testing2.dll"]
+
 
 # Copy dan restore dependencies
 COPY *.csproj ./

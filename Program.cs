@@ -13,6 +13,10 @@ builder.Services.AddDbContext<WeatherDbContext>(options =>
 // Menambahkan controllers
 builder.Services.AddControllers();
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
+builder.WebHost.UseUrls($"http://*:{port}");
+
+
 // Menambahkan Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
