@@ -30,7 +30,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
-        builder => builder.WithOrigins("https://suitable-leanora-codenec-8941accd.koyeb.app")
+        builder => builder
+                          .AllowAllOrigin()
                           .AllowAnyMethod()
                           .AllowAnyHeader());
 });
