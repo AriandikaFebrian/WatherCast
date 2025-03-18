@@ -24,10 +24,10 @@ builder.Services.AddSwaggerGen();
 // Mengatur CORS untuk frontend
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
-        builder => builder.WithOrigins("http://localhost:3000")  // Ganti URL dengan URL aplikasi frontend kamu
-            .AllowAnyHeader()
-            .AllowAnyMethod());
+    options.AddPolicy("AllowAll",
+        builder => builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
 });
 
 var app = builder.Build();
@@ -43,7 +43,7 @@ if (app.Environment.IsDevelopment())
 //app.UseHttpsRedirection();
 
 // Menambahkan CORS untuk memungkinkan frontend mengakses API
-app.UseCors("AllowSpecificOrigin");
+app.UseCors("AllowAll");
 
 // Menyambungkan controller API
 app.MapControllers();
