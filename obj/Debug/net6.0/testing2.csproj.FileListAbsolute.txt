@@ -63,3 +63,5 @@ C:\Users\arian\OneDrive\Documents\ML Net\teat\BackendWeather\obj\Debug\net6.0\re
 C:\Users\arian\OneDrive\Documents\ML Net\teat\BackendWeather\obj\Debug\net6.0\testing2.pdb
 C:\Users\arian\OneDrive\Documents\ML Net\teat\BackendWeather\obj\Debug\net6.0\testing2.genruntimeconfig.cache
 C:\Users\arian\OneDrive\Documents\ML Net\teat\BackendWeather\obj\Debug\net6.0\ref\testing2.dll
+C:\Users\arian\OneDrive\Documents\ML Net\teat\BackendWeather\bin\Debug\net6.0\Npgsql.dll
+C:\Users\arian\OneDrive\Documents\ML Net\teat\BackendWeather\bin\Debug\net6.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll

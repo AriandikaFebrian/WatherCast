@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WeatherAPI.Data;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,8 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 
 // Menambahkan DbContext untuk SQL Server
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+                      ?? Environment.GetEnvironmentVariable("DefaultConnection");
+
 builder.Services.AddDbContext<WeatherDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
+
 
 // Menambahkan controllers
 builder.Services.AddControllers();
