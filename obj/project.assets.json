@@ -5284,7 +5284,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.26",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.26",
       "Newtonsoft.Json >= 13.0.3",
-      "Npgsql.EntityFrameworkCore.PostgreSQL >= 5.0.11",
+      "Npgsql.EntityFrameworkCore.PostgreSQL >= 6.0.0",
       "Swashbuckle.AspNetCore >= 6.4.0",
       "System.Net.Http >= 4.3.4"
     ]
@@ -5352,7 +5352,7 @@
           },
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
-            "version": "[5.0.11, )"
+            "version": "[6.0.0, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
@@ -5385,17 +5385,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.428\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "testing2 depends on Npgsql.EntityFrameworkCore.PostgreSQL (>= 5.0.11) but Npgsql.EntityFrameworkCore.PostgreSQL 5.0.11 was not found. An approximate best match of Npgsql.EntityFrameworkCore.PostgreSQL 6.0.0 was resolved.",
-      "libraryId": "Npgsql.EntityFrameworkCore.PostgreSQL",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  }
 }

@@ -47,9 +47,9 @@ public async Task<IActionResult> GetWeatherById(int id)
         public async Task<IActionResult> GetWeather(string city = "Jakarta")
         {
             string apiKey = "1201e499176a67bbf3e65350e41cf231"; 
-            string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
+            string url = $"https://corsproxy.io/?https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
 
-            try
+            try 
             {
                 var response = await _httpClient.GetStringAsync(url);
                 var weatherData = JObject.Parse(response);
@@ -60,16 +60,17 @@ public async Task<IActionResult> GetWeatherById(int id)
                 }
 
                 var weatherInfo = new Weather
-                {
-                    City = weatherData["name"]?.ToString(),
-                    WeatherDescription = weatherData["weather"]?[0]["description"]?.ToString(),
-                    Temperature = weatherData["main"]?["temp"]?.ToObject<decimal>() ?? 0m,
-                    Humidity = weatherData["main"]?["humidity"]?.ToString(),
-                    WindSpeed = weatherData["wind"]?["speed"]?.ToObject<decimal>() ?? 0m,
-                    CloudCoverage = weatherData["clouds"]?["all"]?.ToObject<int>() ?? 0,
-                    Country = weatherData["sys"]?["country"]?.ToString(),
-                    Timestamp = DateTime.Now
-                };
+{
+    City = weatherData["name"]?.ToString(),
+    WeatherDescription = weatherData["weather"]?[0]["description"]?.ToString(),
+    Temperature = weatherData["main"]?["temp"]?.ToObject<decimal>() ?? 0m,
+    Humidity = weatherData["main"]?["humidity"]?.ToString(),
+    WindSpeed = weatherData["wind"]?["speed"]?.ToObject<decimal>() ?? 0m,
+    CloudCoverage = weatherData["clouds"]?["all"]?.ToObject<int>() ?? 0,
+    Country = weatherData["sys"]?["country"]?.ToString(),
+    Timestamp = DateTime.Now // GANTI INI
+};
+
 
                 // Menyimpan data cuaca ke dalam database
                 _context.Weathers.Add(weatherInfo);

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "e+DrphBHKCC/3bpaxnOmL9RRyy1xJ3DRSkpzNus2EPq1dziV9LUsffnmybuo3PzUXsZGCb3e16m3SyzsJoXE1Q==",
+  "dgSpecHash": "RKyBng6lyfi1anWG89WdgdER/fB7BFgWHtRwkbWrxQxE0Spq5igqx46MRBcefSs80pheesZerc+eZBLCuFruiw==",
   "success": true,
   "projectFilePath": "C:\\Users\\arian\\OneDrive\\Documents\\ML Net\\teat\\BackendWeather\\testing2.csproj",
   "expectedPackageFiles": [
@@ -103,16 +103,5 @@
     "C:\\Users\\arian\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\arian\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "testing2 depends on Npgsql.EntityFrameworkCore.PostgreSQL (>= 5.0.11) but Npgsql.EntityFrameworkCore.PostgreSQL 5.0.11 was not found. An approximate best match of Npgsql.EntityFrameworkCore.PostgreSQL 6.0.0 was resolved.",
-      "libraryId": "Npgsql.EntityFrameworkCore.PostgreSQL",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  "logs": []
 }
