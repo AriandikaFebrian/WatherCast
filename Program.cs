@@ -8,45 +8,39 @@ builder.Services.AddHttpClient();
 
 // Menambahkan DbContext untuk SQL Server
 builder.Services.AddDbContext<WeatherDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));  // Ganti "DefaultConnection" dengan string koneksi di appsettings.json
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Menambahkan controllers
 builder.Services.AddControllers();
 
+// Menentukan port untuk deployment
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8000";
 builder.WebHost.UseUrls($"http://*:{port}");
 
-
-// Menambahkan Swagger
+// Menambahkan Swagger agar tetap aktif di production
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Mengatur CORS untuk frontend
+// Mengatur CORS agar frontend bisa mengakses API
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
-        builder => builder.AllowAnyOrigin()
+        builder => builder.WithOrigins("https://suitable-leanora-codenec-8941accd.koyeb.app")
                           .AllowAnyMethod()
                           .AllowAnyHeader());
 });
 
 var app = builder.Build();
 
-// Mengonfigurasi middleware untuk Swagger jika di lingkungan pengembangan
-if (app.Environment.IsDevelopment())
+// **Mengaktifkan Swagger di Production**
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Weather API V1");
+});
 
-// Mengaktifkan HTTPS Redirection
-//app.UseHttpsRedirection();
-
-// Menambahkan CORS untuk memungkinkan frontend mengakses API
+// **Mengaktifkan middleware**
+// app.UseHttpsRedirection(); // Matikan jika tidak memakai HTTPS di Koyeb
 app.UseCors("AllowAll");
-
-// Menyambungkan controller API
 app.MapControllers();
-
-// Menjalankan aplikasi
 app.Run();
