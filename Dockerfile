@@ -1,22 +1,18 @@
 # Stage 1: Build
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+WORKDIR /app
 
-# Copy project file dan restore dependencies
-COPY ["testing2.csproj", "./"]
-RUN dotnet restore "./testing2.csproj"
+# Copy dan restore dependencies
+COPY *.csproj ./
+RUN dotnet restore
 
 # Copy semua source code dan build aplikasi
-COPY . .
-RUN dotnet publish "./testing2.csproj" -c Release -o /app/publish
+COPY . .  
+RUN dotnet publish -c Release -o out  
 
 # Stage 2: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
-COPY --from=build /app/publish .
+COPY --from=build-env /app/out .
 
-# Expose port yang digunakan
-EXPOSE 8080
-
-# Menjalankan aplikasi
-ENTRYPOINT ["dotnet", "testing2.dll"]
+CMD ["dotnet", "testing2.dll"]
