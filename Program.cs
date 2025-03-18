@@ -33,7 +33,7 @@ builder.Services.AddCors(options =>
         builder => builder
             .WithOrigins(
                 "https://suitable-leanora-codenec-8941accd.koyeb.app",
-                "https://rococo-yeot-bec94a.netlify.app"
+                "https://weather-cast-forecast.netlify.app"
             )
             .AllowAnyMethod()
             .AllowAnyHeader());
