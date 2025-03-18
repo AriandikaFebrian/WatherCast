@@ -40,7 +40,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Mengaktifkan HTTPS Redirection
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 // Menambahkan CORS untuk memungkinkan frontend mengakses API
 app.UseCors("AllowSpecificOrigin");
