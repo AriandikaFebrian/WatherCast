@@ -43,50 +43,67 @@ public async Task<IActionResult> GetWeatherById(int id)
 
 
         // Endpoint untuk mengambil cuaca berdasarkan kota
-        [HttpGet]
-        public async Task<IActionResult> GetWeather(string city = "Jakarta")
-        {
-            string apiKey = "1201e499176a67bbf3e65350e41cf231"; 
-            string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
-
-            try
-            {
-                var response = await _httpClient.GetStringAsync(url);
-                var weatherData = JObject.Parse(response);
-
-                if (weatherData["cod"]?.ToString() != "200")
-                {
-                    return NotFound("City not found");
-                }
-
-                // Cari data cuaca untuk besok pukul 12:00 siang
-        var tomorrowDate = DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-dd");
-        var forecastList = weatherData["list"]
-            .Where(f => f["dt_txt"]?.ToString().Contains($"{tomorrowDate} 12:00:00") ?? false)
-            .FirstOrDefault();
-
-                var weatherInfo = new Weather
+[HttpGet("forecast")]
+public async Task<IActionResult> GetWeatherForecast(string city = "Jakarta")
 {
-    City = weatherData["name"]?.ToString(),
-    WeatherDescription = weatherData["weather"]?[0]["description"]?.ToString(),
-    Temperature = weatherData["main"]?["temp"]?.ToObject<decimal>() ?? 0m,
-    Humidity = weatherData["main"]?["humidity"]?.ToString(),
-    WindSpeed = weatherData["wind"]?["speed"]?.ToObject<decimal>() ?? 0m,
-    CloudCoverage = weatherData["clouds"]?["all"]?.ToObject<int>() ?? 0,
-    Country = weatherData["sys"]?["country"]?.ToString(),
-    Timestamp = DateTime.UtcNow // Gunakan UTC untuk PostgreSQL
-};
+    string apiKey = "1201e499176a67bbf3e65350e41cf231"; 
+    string url = $"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={apiKey}&units=metric";
 
-                // Menyimpan data cuaca ke dalam database
-                _context.Weathers.Add(weatherInfo);
-                await _context.SaveChangesAsync();
+    try
+    {
+        var response = await _httpClient.GetStringAsync(url);
+        if (string.IsNullOrWhiteSpace(response)) 
+        {
+            return StatusCode(500, "API response is empty");
+        }
 
-                return Ok(weatherInfo);
-            }
-            catch (HttpRequestException)
-            {
-                return StatusCode(500, "Error retrieving weather data");
-            }
+        var weatherData = JObject.Parse(response);
+
+        if (weatherData["cod"]?.ToString() != "200")
+        {
+            return NotFound("City not found");
+        }
+
+        // Periksa apakah ada data forecast
+        var forecastList = weatherData["list"]?.ToObject<JArray>();
+        if (forecastList == null || !forecastList.Any())
+        {
+            return NotFound("No forecast data available");
+        }
+
+        // Cari data cuaca untuk besok pukul 12:00 siang
+        var tomorrowDate = DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-dd");
+        var forecast = forecastList
+            .FirstOrDefault(f => f["dt_txt"]?.ToString().Contains($"{tomorrowDate} 12:00:00"));
+
+        if (forecast == null)
+        {
+            return NotFound("No forecast available for tomorrow");
+        }
+
+        var weatherInfo = new Weather
+        {
+            City = city,
+            WeatherDescription = forecast["weather"]?[0]["description"]?.ToString(),
+            Temperature = forecast["main"]?["temp"]?.ToObject<decimal>() ?? 0m,
+            Humidity = forecast["main"]?["humidity"]?.ToString(),
+            WindSpeed = forecast["wind"]?["speed"]?.ToObject<decimal>() ?? 0m,
+            CloudCoverage = forecast["clouds"]?["all"]?.ToObject<int>() ?? 0,
+            Country = weatherData["city"]?["country"]?.ToString(),
+            Timestamp = DateTime.UtcNow
+        };
+
+        // Simpan ke database
+        _context.Weathers.Add(weatherInfo);
+        await _context.SaveChangesAsync();
+
+        return Ok(weatherInfo);
+    }
+    catch (HttpRequestException ex)
+    {
+        return StatusCode(500, $"Error retrieving weather data: {ex.Message}");
+    }
+}
         }
 
         // Endpoint untuk membuat data cuaca baru
