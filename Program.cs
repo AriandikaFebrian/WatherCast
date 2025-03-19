@@ -50,7 +50,6 @@ app.UseSwaggerUI(c =>
 });
 
 // **Mengaktifkan middleware**
-// app.UseHttpsRedirection(); // Matikan jika tidak memakai HTTPS di Koyeb
 app.UseCors("AllowAll");
 app.MapControllers();
 app.Run();

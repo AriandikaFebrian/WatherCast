@@ -59,6 +59,12 @@ public async Task<IActionResult> GetWeatherById(int id)
                     return NotFound("City not found");
                 }
 
+                // Cari data cuaca untuk besok pukul 12:00 siang
+        var tomorrowDate = DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-dd");
+        var forecastList = weatherData["list"]
+            .Where(f => f["dt_txt"]?.ToString().Contains($"{tomorrowDate} 12:00:00") ?? false)
+            .FirstOrDefault();
+
                 var weatherInfo = new Weather
 {
     City = weatherData["name"]?.ToString(),
